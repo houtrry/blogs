@@ -1,7 +1,6 @@
 Android的TextView有默认的paddingTop和paddingBottom, 导致跟UI的设计有出入. 
 最后在网上找到几种方法
-1. 设置marginTop和marginBottom为负值, 比如marginTop="-3dp"
-这种方法无法确定这个负值具体是多少, 实际项目中很少用到.
+1. 设置marginTop和marginBottom为负值, 比如marginTop="-3dp", 这种方法无法确定这个负值具体是多少, 实际项目中很少用到.
 2. 设置android:includeFontPadding="false"
 3. 使用TextViewWithoutPaddings
 ```
