@@ -197,11 +197,11 @@ public final class DaggerAppleComponent implements AppleComponent {
   }
 }
 ```
-①DaggerAppleComponent.builder(): builder()方法里new 了一个DaggerAppleComponent.Builder, 并返回这个新建的Builder.  
-②DaggerAppleComponent.builder().build(): build()方法里new了DaggerAppleComponent的实例, 并将上个方法创建的Builder传给了DaggerAppleComponent的构造方法.  
+2.DaggerAppleComponent.builder(): builder()方法里new 了一个DaggerAppleComponent.Builder, 并返回这个新建的Builder.  
+3.DaggerAppleComponent.builder().build(): build()方法里new了DaggerAppleComponent的实例, 并将上个方法创建的Builder传给了DaggerAppleComponent的构造方法.  
 在DaggerAppleComponent的构造方法里, 调用了DaggerAppleComponent.initialize(builder).   
 在initialize里. 调用了Main9Activity_MembersInjector.create(Apple_Factory.create())方法.  
-④现在我们来看一下这个Main9Activity_MembersInjector.create(Apple_Factory.create())方法都做了什么事情.  
+4.现在我们来看一下这个Main9Activity_MembersInjector.create(Apple_Factory.create())方法都做了什么事情.  
 首先, 看下Apple_Factory的源码 
 ```
 public final class Apple_Factory implements Factory<Apple> {
@@ -249,7 +249,7 @@ Main9Activity_MembersInjector.create(Apple_Factory.create())方法到底做了�
 我们已知Apple_Factory.create()返回了单例Apple_Factory并且, Apple_Factory.get方法返回了Apple的实例.  
 现在来看Main9Activity_MembersInjector.create, 在该方法中, new了一个Main9Activity_MembersInjector, 并将Apple_Factory的单例传给这个构造方法.  
 在Main9Activity_MembersInjector的构造方法中, 将Apple_Factory的实例赋值给了Main9Activity_MembersInjector的成员变量mAppleProvider, 此时, 通过成员变量mAppleProvider的get方法就可以得到一个Apple的实例了.  
-④DaggerMainComponent.builder().mainModule(new MainModule()).build().inject(this): 最后这个inject方法做了什么呢?  
+5.DaggerMainComponent.builder().mainModule(new MainModule()).build().inject(this): 最后这个inject方法做了什么呢?  
 ```
   @Override
   public void inject(Main9Activity main9Activity) {
@@ -265,5 +265,5 @@ Main9Activity_MembersInjector.create(Apple_Factory.create())方法到底做了�
     instance.mApple = mAppleProvider.get();
   }
 ```
-此时, 我们终于找到了这个给Main9Activity的成员变量mApple赋值的地方了, 通过inject调用Main9Activity_MembersInjector.injectMembers方法, 在injectMembers方法中, 通过单例Apple_Factory.get获取Apple的实例, 并将该实例直接赋值飞Main9Activity.mApple, 到此, 给mApple生成实例的过程就结束了.  
+此时, 我们终于找到了这个给Main9Activity的成员变量mApple赋值的地方了, 通过inject调用Main9Activity_MembersInjector.injectMembers方法, 在injectMembers方法中, 通过单例Apple_Factory.get获取Apple的实例, 并将该实例直接赋值飞Main9Activity.mApple, 到此, 给mApple生成实例的过程就结束了.  当然, 这里分析的只是最简单的使用模式, 随着Dagger2的使用, 代码会越来越复杂.
 在这里, 我们也可以明白, 为什么成员变量mApple不能是private的, 因为给mApple赋值的方式使用过instance.mApple来实现的, 如果mApple是private, 这里将会报错.
