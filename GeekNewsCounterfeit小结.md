@@ -1,4 +1,4 @@
-###说在前面  
+###写在前面  
 GeekNewsCounterfeit项目是模仿的[GeekNews项目](https://github.com/codeestX/GeekNews), 本篇文章是学习过程中的小结.  
 
 ----------------
@@ -148,4 +148,6 @@ public class InitializeService extends IntentService {
         InitializeService.start(this);
     }
 ```
-<font color=red>当然, 实际使用过程中要考虑有些库在子线程中初始化会出问题.</font>
+<font color=red>当然, 实际使用过程中要考虑有些库在子线程中初始化会出问题.</font>  
+
+2.
