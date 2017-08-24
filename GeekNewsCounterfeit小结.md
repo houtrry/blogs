@@ -72,6 +72,9 @@ ext {
     compile rootProject.ext.dependencies["rxandroid"]
     ...
 ```
+
+----------------------------------------------
+
 ###App启动速度优化.  
 1.Application的优化.   
 尽可能地将第三方库的初始化放到子线程中, 而不是直接放到Application.onCreate方法中.  
@@ -150,6 +153,8 @@ public class InitializeService extends IntentService {
 ```
 <font color=red>当然, 实际使用过程中要考虑有些库在子线程中初始化会出问题.</font>  
 
+------------------------------------
+
 ###完全退出app的方法  
 1.思路: 定义一个集合, 保存全部的Activity信息. 当打开新的Activity的时候, 将该Activity添加到该集合;当Activity销毁的时候, 从集合中移除该Activity. 那么, 当退出的时候, finish掉集合中的每一个Activity就可以实现APP的完全退出.  
 2.实现方式:   
@@ -204,4 +209,6 @@ public abstract class BaseActivity extends ActivityCompat {
         System.exit(0);
     }
 ```
-在退出APP的时候调用这个方法.
+在退出APP的时候调用这个方法.  
+
+--------------------------------------------------------
