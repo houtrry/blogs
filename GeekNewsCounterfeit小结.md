@@ -150,4 +150,58 @@ public class InitializeService extends IntentService {
 ```
 <font color=red>当然, 实际使用过程中要考虑有些库在子线程中初始化会出问题.</font>  
 
-2.
+###完全退出app的方法  
+1.思路: 定义一个集合, 保存全部的Activity信息. 当打开新的Activity的时候, 将该Activity添加到该集合;当Activity销毁的时候, 从集合中移除该Activity. 那么, 当退出的时候, finish掉集合中的每一个Activity就可以实现APP的完全退出.  
+2.实现方式:   
+①在Application中定义一个集合  
+```
+	private Set<Activity> allActivities;
+	
+	public void addActivity(Activity act) {
+	    if (allActivities == null) {
+	        allActivities = new HashSet<>();
+	    }
+	    allActivities.add(act);
+	}
+	
+	public void removeActivity(Activity act) {
+	    if (allActivities != null) {
+	        allActivities.remove(act);
+	    }
+	}
+```
+②定义一个BaseActivity, 在BaseActivity#onCreate中, 将Activity添加到集合. 在BaseActivity#onDestroy中, 移除该Activity.  
+```
+public abstract class BaseActivity extends ActivityCompat {
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+		...
+        App.getInstance().addActivity(this);
+        ...
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        App.getInstance().removeActivity(this);
+        ...
+    }
+}
+``` 
+③在Application中定义退出Activity的方法, 遍历每一个Activity, 调用Activity#finish.   
+```
+    public void exitApp() {
+        if (allActivities != null) {
+            synchronized (allActivities) {
+                for (Activity act : allActivities) {
+                    act.finish();
+                }
+            }
+        }
+        android.os.Process.killProcess(android.os.Process.myPid());
+        System.exit(0);
+    }
+```
+在退出APP的时候调用这个方法.
