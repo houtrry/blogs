@@ -2,3 +2,4 @@
 * Android ButterKnife Zelezny  -- ButterKnife工具, 自动生成ButterKnife的注解代码(需要先添加[ButterKnife](https://github.com/JakeWharton/butterknife))
 * Android Parcelable code generator -- 自动生成Parcelable代码工具
 * GsonFormat  -- 支持把json字符串转为JavaBean
+* CodeGlance  -- 编辑区右侧仿Sublime, 代码预览
