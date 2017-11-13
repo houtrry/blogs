@@ -21,10 +21,16 @@
   * 后台Activity----已经被暂停的Activity, 比如执行了onStop
 3. 如果某项内容发生改变后, 我们不想让系统重新创建Activity, 可以给Activity指定configChanges属性.  
 
-## 1.2 Activity的启动模式
-1. 标准模式: 谁启动了这个Activity, 那么这个Activity就运行在启动它的那个Activity所在的栈中.
+## 1.2 Activity的启动模式  
+
+### 1.2.1 Activity的LunchMode
+1. 标准模式: 谁启动了这个Activity, 那么这个Activity就运行在启动它的那个Activity所在的栈中.  
     注意: 用非Activity类型的Context去启动Activity, 需要为待启动的ActivityActivity指定FLAG_ACTIVITY_NEW_TASK标记位, 这样启动的时候就会为它创建一个新的任务栈, 这个时候待启动的Activity实际上是以singleTask模式启动的. 如果不这样处理, 会报错<android.util.AndroidRuntimeException: Calling startActivity from outside of an Activity context requires the FRAG_ACTIVITY_NEW_TASK flag.> 出错的原因: 即然是非Activity的Context, 那就没有任务栈, 那么, 待启动的Activity不知放到哪个栈中, 因此, 会报错.  
 2. singleTop: 栈顶复用模式. 如果新的Activity已经位于任务栈的栈顶, 那么此Activity不会被重新创建, 同时, 它的onNewIntent方法会被回调. 而onCreate和onStart都不会被调用.  
 3. singleTask: 栈内复用模式. 当一个具有singleTask模式的Activity请求启动后, 比如Activity A, 系统会首先虚招是否存在A想要的任务栈, 如果不存在, 就重新创建任务栈, 然后把A的实例放到任务栈中. 如果存在A所需要的任务栈, 这时就要看A是否在栈中有实例存在, 如果有实例存在, 那么, 系统会把A调到栈顶, 并调用它的onNewIntent方法, 如果不存在, 就创建A的实例, 放到栈中.  
 4. singleInstance: 单实例模式. 具有singleTask模式的所有特性, 还加强了一点, 具有这种模式的Activity只能单独的位于一个任务栈中.  
-5. 
+5. 关于taskAffinity属性. TaskAffinity和singleTask启动模式配对使用的时候, 它是具有该模式的Activity的目前任务栈的名字, 待启动的Activity会运行在名字和TaskAffinity相同的任务栈中.默认情况下, 所有Activity所需的任务栈的名字为应用的包名.taskAffinity属性的值为字符串, 且中间必须包含有包名分隔符".".  
+
+### 1.2.2 Activity的Flags
+
+## 1.3 IntentFilter的匹配规则
