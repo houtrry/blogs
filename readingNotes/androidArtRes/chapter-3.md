@@ -27,9 +27,51 @@ velocityTracker.recycle();
 用于实现View的弹性滑动., 实现有过渡效果的滑动.
 
 
-## 3.2 View的滑动
+## 3.2 View的滑动  
 
+### scrollBy和scrollTo  
 
-## 事件的分发流程
+### View动画和属性动画  
+View动画是对View的影像做的操作, 它并不能真正改变View的位置参数, 包括宽高, 并且如果希望动画后的状态得以保留还必须将fillAfter属性设置为true, 否则, 动画完成后, 其动画效果会消失.  
+
+### 改变布局参数  
+也就时修改LayoutParams.注意ViewGroup.MarginLayoutParams这个支持margin属性的LayoutParams, 它是ViewGroup.LayoutParams的子类, 是LinearLayout.LayoutParams以及RelativeLayout.LayoutParams等的父类.  
+
+## 3.3 弹性滑动  
+
+###  使用Scroller
+
+###  通过动画
+
+###  使用延时策略
+
+### ViewDragHelper
+
+## 3.4 事件的分发机制
+### 3.4.1  点击事件的传递规则
+#### dispatchTouchEvent  
+返回值表示当前View以及当前View的子View会不会消费当前事件. 注意: 这里并不仅仅是表示当前View.  
+
+#### onInterceptTouchEvent  
+在dispatchTouchEvent中调用. 用来判断是否拦截某个事件. 注意:如果当前View拦截了某个事件, 那么在同一个事件序列(DOWN-->UP当做同一个事件序列)中, 此方法不会再次调用.  
+
+#### onTouchEvent
+在dispatchTouchEvent中调用. 用来处理点击事件.返回结果表示是否消耗当前事件.如果不消耗, 那么在同一个事件序列中, 当前View无法再次接收事件.
+
+#### onTouch和onTouchEvent
+当一个View需要处理事件时, 如果它设置了OnTouchListener, 那么, OnTouchListener中的onTouch方法会被回调. 这时, 如果onTouch返回true, 那么onTouchEvent将不会被调用, 如果onTouch返回false, onTouchEvent会被调用.也就是View设置的onTouchListener的优先级比onTouch高.  
+
+#### 事件传递规则的一些结论:  
+1. 一个事件序列指从手指接触屏幕到手指离开屏幕的过程中产生的一系列事件.  
+2. 正常情况下, 一个事件序列只能被一个View消耗.  
+3. 某个View一旦决定拦截, 那么这个事件序列都只能由它来处理, 并且它的onInterceptTouchEvent不会再被调用.
+4. 某个View一旦开始处理事件, 如果它不消耗ACTION_DOWN事件(即onTouchEvent返回了false), 那么, 同一个事件序列的其他事件都不会再交给它处理.  
+5. 如果View不消耗出ACTION_DOWN以外的其它事件, 那么这个点击事件会消失, 此时父元素的onTouchEvent并不会被调用, 并且当前View可以持续受到后续的事件, 最终这些消失的事件会传递给Activity处理.( 我理解的是在onTouchEvent中, ACTION_DOWN返回了true, 但其它的都返回了false的情况).  
+6. ViewGroup默认不拦截任何事件.
+7. View中没有onInterceptTouchEvent方法, 一旦有事件传递给它, 就会执行它的onTouchEvent方法.  
+8. View的onTouchEvent默认会消耗事件(返回true), 除非它是不可点击的(clickable和longClickable同时为false).  
+9. View的enable属性不影响onTouchEvent的默认返回值.  
+10. 通过requestDisallowInterceptTouchEvent方法可以在子元素中干预父元素的事件分发过程, 但是ACTION_DOWN事件除外.
+
 
 ## 事件冲突的处理
