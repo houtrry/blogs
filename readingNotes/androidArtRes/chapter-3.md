@@ -66,12 +66,34 @@ View动画是对View的影像做的操作, 它并不能真正改变View的位置
 2. 正常情况下, 一个事件序列只能被一个View消耗.  
 3. 某个View一旦决定拦截, 那么这个事件序列都只能由它来处理, 并且它的onInterceptTouchEvent不会再被调用.
 4. 某个View一旦开始处理事件, 如果它不消耗ACTION_DOWN事件(即onTouchEvent返回了false), 那么, 同一个事件序列的其他事件都不会再交给它处理.  
-5. 如果View不消耗出ACTION_DOWN以外的其它事件, 那么这个点击事件会消失, 此时父元素的onTouchEvent并不会被调用, 并且当前View可以持续受到后续的事件, 最终这些消失的事件会传递给Activity处理.( 我理解的是在onTouchEvent中, ACTION_DOWN返回了true, 但其它的都返回了false的情况).  
+5. 如果View不消耗出ACTION_DOWN以外的其它事件, 那么这个点击事件会消失, 此时父元素的onTouchEvent并不会被调用, 并且当前View可以持续收到后续的事件, 最终这些消失的事件会传递给Activity处理.( 我理解的是在onTouchEvent中, ACTION_DOWN返回了true, 但其它的都返回了false的情况).  
 6. ViewGroup默认不拦截任何事件.
 7. View中没有onInterceptTouchEvent方法, 一旦有事件传递给它, 就会执行它的onTouchEvent方法.  
 8. View的onTouchEvent默认会消耗事件(返回true), 除非它是不可点击的(clickable和longClickable同时为false).  
 9. View的enable属性不影响onTouchEvent的默认返回值.  
 10. 通过requestDisallowInterceptTouchEvent方法可以在子元素中干预父元素的事件分发过程, 但是ACTION_DOWN事件除外.
 
+###3.4.2 事件分发源码解析
 
-## 事件冲突的处理
+#### 事件的分发过程
+* Activity-->Window(其实是它的实现PhoneWindow)-->DecorView(Fragment的子类, 包含TitleView和ContentView, 其中, ContentView就是Activity中setContent方法设置的内容)-->ViewGroup...  
+* onInterceptTouchEvent不是每次事件都会被调用, 如果我们想提前处理所有的点击事件, 要选择dispatchTouchEvent方法, 只有这个方法能确保每次都会调用, 当然, 前提是, 事件能够传递到当前ViewGroup.  
+
+## 3.5 事件冲突
+
+### 常见的滑动冲突场景
+1. 外部滑动方向和内部滑动方向不一致.比如横向ViewPager包裹竖直方向的RecyclerView或者ListView(ViewPager包裹Fragment, Fragment包裹更小的RecyclerView或者ListView)
+2. 外部滑动方向和内部滑动方向一致, 比如横向的ViewPager包裹横向的ViewPager(ViewPager包裹Fragment, Fragment包裹更小的ViewPager)
+3. 上述两种情况的嵌套
+
+### 处理规则
+1. 对于场景1, 可以根据是水平滑动还是竖直滑动来判断由谁来拦截事件.而判断水平还是竖直滑动的方法①判断水平方向和竖直方向上滑动距离的大小②判断判断水平方向和竖直方向上滑动速度的大小
+2. 根据具体的业务来做判断
+3. 根据具体的业务来做判断
+
+### 滑动冲突的解决方式
+
+#### 外部拦截法
+
+#### 内部拦截法
+
