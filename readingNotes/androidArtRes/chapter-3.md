@@ -73,7 +73,7 @@ View动画是对View的影像做的操作, 它并不能真正改变View的位置
 9. View的enable属性不影响onTouchEvent的默认返回值.  
 10. 通过requestDisallowInterceptTouchEvent方法可以在子元素中干预父元素的事件分发过程, 但是ACTION_DOWN事件除外.
 
-###3.4.2 事件分发源码解析
+### 3.4.2 事件分发源码解析
 
 #### 事件的分发过程
 * Activity-->Window(其实是它的实现PhoneWindow)-->DecorView(Fragment的子类, 包含TitleView和ContentView, 其中, ContentView就是Activity中setContent方法设置的内容)-->ViewGroup...  
