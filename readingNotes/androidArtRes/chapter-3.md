@@ -95,5 +95,89 @@ View动画是对View的影像做的操作, 它并不能真正改变View的位置
 
 #### 外部拦截法
 
+所谓外部拦截法是指点击事件都事先经过父容器的拦截处理, 如果父容器需要此事件就拦截, 如果不需要就不拦截, 这样就可以解决滑动冲突的问题.外部拦截法需要重写父容器的onInterceptTouchEvent方法, 在该方法内部做相应的拦截即可.  
+
+```
+
+public boolean onInterceptTouchEvent(MotionEvent event) {
+	boolean intercepted = false;
+	int x = (int)event.getX();
+	int y = (int)event.getY();
+	switch() {
+		case MotionEvent.ACTION_DOWN:{
+			intercepted = false;
+			break;
+		}
+		case MotionEvent.ACTION_MOVE:{
+			intercepted = false;
+			if(父容器需要当前点击事件) {
+				intercepted = true;
+			} else {
+				intercepted = false
+			}
+			break;
+		}
+		case MotionEvent.ACTION_UP:{
+			intercepted = false;
+			break;
+		}
+		default:
+			break;
+	}
+	mLastXIntercept = x;
+	mLastYIntercept = y;
+}
+
+```
+
+在onInterceptTouchEvent方法中, 首先是ACTION_DOWN这个事件, 父容器必须返回false, 即不拦截ACTION_DOWN事件, 这是因为一旦父容器拦截了ACTION_DOWN, 那么同一个事件序列的后续事件ACTION_MOVE和ACTION_UP都会直接交给父容器处理, 这个事件没法再传递给子元素了.其次, ACTION_MOVE, 父容器可以根据需要拦截. 最后ACTION_MOVE事件, 父容器必须返回false.  
+如果事件交由子元素处理, 但是父容器的ACTION_UP返回了true, 会导致子元素无法接收ACTION_UP事件, 这个时候子元素的onClick事件就无法触发.
+
 #### 内部拦截法
 
+内部拦截法是指父容器不拦截任何事件, 所有的事件都传递给子元素, 如果子元素需要此事件就直接消耗掉, 否则, 就交给父容器进行处理.这种方法需要配合requestDisallowInterceptTouchEvent方法使用. 伪代码如下, 需要重写子元素的dispatchTouchEvent方法:  
+
+```
+
+public boolean dispatchTouchEvent(MotionEvent event) {
+	int x = (int) event.getX();
+	int y = (int) event.getY();
+
+	switch(event.getAction()) {
+		case MOtionEvent.ACTION_DOWN:{
+			parent.requestDisallowInterceptTouchEvent(true);
+			break;
+		}
+		case MOtionEvent.ACTION_DOWN:{
+			int deltaX = x - mLastX;
+			int deltaY = y - mLastY;
+			if(父容器需此类点击事件) {
+				parent.requestDisallowInterceptTouchEvent(false);
+			}
+			break;
+		}
+		case MOtionEvent.ACTION_DOWN:{
+			break;
+		}
+		default:
+			break;
+	}
+
+}
+
+```
+
+除了子元素需要做处理以外, 父元素也需要默认拦截除了ACTION_DOWN以外的其他事件, 这样当子元素调用parent.requestDisallowInterceptTouchEvent(false);方法时, 父元素才能继续拦截所有事件.父元素所做的修改如下:  
+
+```
+
+public boolean onInterceptTouchEvent(MotionEvnet event) {
+	int action = event.getAction();
+	if(action == MotionEvent.ACTION_DOWN) {
+		return false;
+	} else {
+		return true;
+	}
+}
+
+```
