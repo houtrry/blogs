@@ -144,11 +144,11 @@ public boolean dispatchTouchEvent(MotionEvent event) {
 	int y = (int) event.getY();
 
 	switch(event.getAction()) {
-		case MOtionEvent.ACTION_DOWN:{
+		case MotionEvent.ACTION_DOWN:{
 			parent.requestDisallowInterceptTouchEvent(true);
 			break;
 		}
-		case MOtionEvent.ACTION_DOWN:{
+		case MotionEvent.ACTION_DOWN:{
 			int deltaX = x - mLastX;
 			int deltaY = y - mLastY;
 			if(父容器需此类点击事件) {
@@ -156,7 +156,7 @@ public boolean dispatchTouchEvent(MotionEvent event) {
 			}
 			break;
 		}
-		case MOtionEvent.ACTION_DOWN:{
+		case MotionEvent.ACTION_DOWN:{
 			break;
 		}
 		default:
@@ -171,7 +171,7 @@ public boolean dispatchTouchEvent(MotionEvent event) {
 
 ```
 
-public boolean onInterceptTouchEvent(MotionEvnet event) {
+public boolean onInterceptTouchEvent(MotionEvent event) {
 	int action = event.getAction();
 	if(action == MotionEvent.ACTION_DOWN) {
 		return false;
