@@ -3,3 +3,4 @@
 * Android Parcelable code generator -- 自动生成Parcelable代码工具
 * GsonFormat  -- 支持把json字符串转为JavaBean
 * CodeGlance  -- 编辑区右侧仿Sublime, 代码预览
+* AndroidSourceViewer -- 查看Android源码工具
