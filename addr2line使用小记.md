@@ -40,3 +40,5 @@ D:/develop/code/OpenglSample/lopengl/src/main/cpp/lopengl.cpp:486
 注意：
 1. window与linux使用的addr2line目录不同
 2. 手机架构不同，使用的so也不同，需要先确定手机的使用架构
+
+参考文章[so 动态库崩溃问题定位（addr2line与objdump）](https://www.cnblogs.com/yipianchuyun/p/13130155.html)
