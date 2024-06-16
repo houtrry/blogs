@@ -12,23 +12,7 @@ javap -s -p class文件路径
 D:\develop\tools\androidsdk\ndk\20.1.5948944\toolchains\aarch64-linux-android-4.9\prebuilt\windows-x86_64\bin> D:\develop\tools\as\jre\bin\javap.exe -s -p D:\develop\code\OpenglSample\lopengl\build\intermediates\runtime_library_classes_dir\debug\com\houtrry\lopengl\view\MapView.class
 Compiled from "MapView.kt"
 public final class com.houtrry.lopengl.view.MapView extends android.opengl.GLSurfaceView implements android.opengl.GLSurfaceView$Renderer {
-  public static final com.houtrry.lopengl.view.MapView$Companion Companion;
-    descriptor: Lcom/houtrry/lopengl/view/MapView$Companion;
-  public com.houtrry.lopengl.view.MapView(android.content.Context, android.util.AttributeSet);
-    descriptor: (Landroid/content/Context;Landroid/util/AttributeSet;)V
-
-  public com.houtrry.lopengl.view.MapView(android.content.Context, android.util.AttributeSet, int, kotlin.jvm.internal.DefaultConstructorMarker);
-    descriptor: (Landroid/content/Context;Landroid/util/AttributeSet;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
-
-  public void onSurfaceCreated(javax.microedition.khronos.opengles.GL10, javax.microedition.khronos.egl.EGLConfig);
-    descriptor: (Ljavax/microedition/khronos/opengles/GL10;Ljavax/microedition/khronos/egl/EGLConfig;)V
-
-  public void onSurfaceChanged(javax.microedition.khronos.opengles.GL10, int, int);
-    descriptor: (Ljavax/microedition/khronos/opengles/GL10;II)V
-
-  public void onDrawFrame(javax.microedition.khronos.opengles.GL10);
-    descriptor: (Ljavax/microedition/khronos/opengles/GL10;)V
-
+  //...省略...
   private final native void ndkCreate();
     descriptor: ()V
 
@@ -43,12 +27,7 @@ public final class com.houtrry.lopengl.view.MapView extends android.opengl.GLSur
 
   private final native boolean ndkReadAssertManagers(android.content.res.AssetManager, java.lang.String[]);
     descriptor: (Landroid/content/res/AssetManager;[Ljava/lang/String;)Z
-
-  public com.houtrry.lopengl.view.MapView(android.content.Context);
-    descriptor: (Landroid/content/Context;)V
-
-  static {};
-    descriptor: ()V
+  //...省略...
 }
 ```
 descriptor就是方法签名
