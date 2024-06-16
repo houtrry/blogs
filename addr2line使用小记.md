@@ -1,6 +1,6 @@
 使用方式： addr2line.exe路径 参数 so路径 要查询的地址
 
-示例： 
+示例：   
 崩溃信息如下：
 ```
 2024-06-15 20:38:28.617 15876-15896/com.houtrry.openglsample A/libc: Fatal signal 5 (SIGTRAP), code 1 in tid 15896 (GLThread 777)
@@ -25,9 +25,9 @@
 
 ```
 崩溃信息显示崩溃在#00 pc 0000000000015e8c  /data/app/com.houtrry.openglsample-1/lib/arm64/liblopengl.so (Java_com_houtrry_lopengl_view_MapView_ndkReadAssertManagers+352)
-但是尾部352并不是出问题的行号，352行也不是ndkReadAssertManagers方法
-因此，使用addr2line查询崩溃具体的行号信息。
-使用示例如下
+但是尾部352并不是出问题的行号，352行也不是ndkReadAssertManagers方法  
+因此，使用addr2line查询崩溃具体的行号信息。  
+使用示例如下  
 ```
 D:\develop\tools\androidsdk\ndk\20.1.5948944\toolchains\aarch64-linux-android-4.9\prebuilt\windows-x86_64\bin>  .\aarch64-linux-android-addr2line.exe -C -f -e D:\develop\code\OpenglSample\lopengl\build\intermediates\cmake\debug\obj\arm64-v8a\liblopengl.so 0000000000015e8c
 Java_com_houtrry_lopengl_view_MapView_ndkReadAssertManagers
