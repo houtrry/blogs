@@ -1,6 +1,7 @@
-使用方式： addr2line.exe路径 参数 so路径 要查询的地址
+### 使用方式： 
+addr2line.exe路径 参数 so路径 要查询的地址
 
-示例：   
+### 示例：   
 崩溃信息如下：
 ```
 2024-06-15 20:38:28.617 15876-15896/com.houtrry.openglsample A/libc: Fatal signal 5 (SIGTRAP), code 1 in tid 15896 (GLThread 777)
@@ -41,4 +42,5 @@ D:/develop/code/OpenglSample/lopengl/src/main/cpp/lopengl.cpp:486
 1. window与linux使用的addr2line目录不同
 2. 手机架构不同，使用的so也不同，需要先确定手机的使用架构
 
-参考文章[so 动态库崩溃问题定位（addr2line与objdump）](https://www.cnblogs.com/yipianchuyun/p/13130155.html)
+###参考文章
+[so 动态库崩溃问题定位（addr2line与objdump）](https://www.cnblogs.com/yipianchuyun/p/13130155.html)
