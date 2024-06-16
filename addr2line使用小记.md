@@ -40,4 +40,3 @@ D:/develop/code/OpenglSample/lopengl/src/main/cpp/lopengl.cpp:486
 注意：
 1. window与linux使用的addr2line目录不同
 2. 手机架构不同，使用的so也不同，需要先确定手机的使用架构
-3. 要查询的地址是崩溃信息里带的
