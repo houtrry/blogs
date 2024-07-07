@@ -53,5 +53,7 @@ VBO是VAO、EBO的基础
 
 ### 参考文章
 [熟悉 OpenGL VAO、VBO、FBO、PBO 等对象，看这一篇就够了](https://cloud.tencent.com/developer/article/1893989)
+[Android OpenGL 渲染图像读取哪家强](https://cloud.tencent.com/developer/article/1739511)
+[PBO是OpenGL最高效的像素拷贝方式吗？](https://cloud.tencent.com/developer/article/2003936)
 
 
