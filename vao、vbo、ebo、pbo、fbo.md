@@ -34,22 +34,65 @@ Vertex Buffer Object
 2. 绘制阶段，使用VBO的数据
 3. 销毁阶段，释放VBO的数据
 
-在绘制过程中，我们可能还会遇到使用glDrawElements方法进行绘制的情况，这个时候，EBO就派上了用场
-### EBO
-
-但是VBO只解决了缓存顶点数据的问题，在使用VBO数据时，仍然需要向GPU提交顶点数据的解析方式，  
-为了简化使用，我们创造了VAO
-### VAO
-  
-   
-   
-
-
 - VBO可以单独使用，不依赖VAO、EBO  
-- VAO依赖VBO使用，也即是，使用VAO时，必须使用VBO  
-- EBO依赖VBO使用，也即是，使用EBO时，必须使用VBO  
 
 VBO是VAO、EBO的基础
+
+### VBO/EBO/PBO
+三者基本一致，都是把数据存到GPU，减少CPU向GPU提交数据的次数，从而提高渲染效率。  
+三者都是存数据，只是所存储的数据不同。
+
+- VBO：存放顶点数据，比如顶点、颜色、法线，GL_ARRAY_BUFFER
+- EBO: 存放顶点索引index数据, GL_ELEMENT_ARRAY_BUFFER
+- PBO：存放像素数据
+
+#### 向GPU提交数据
+```
+GLuint vboId;
+//生成vbo id
+glGenBuffers(1, &vboId);
+//绑定vobId， 也即是， 后续操都针对该vboId
+glBindBuffer(GL_ARRAY_BUFFER, vboId);
+//向GPU提交该vbo的数据
+glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+//数据提交完，解绑vboId
+glBindBuffer(GL_ARRAY_BUFFER, 0);
+```
+EBO、PBO类似，只是类型不同，GL_ARRAY_BUFFER、GL_STATIC_DRAW。
+#### 绘制时使用数据
+```
+glBindBuffer(GL_ARRAY_BUFFER, vboId);
+glEnableVertexAttribArray(0);
+glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (const void *)0);
+
+
+glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, (const void *)0);
+```
+
+#### 绘制结束，释放
+```
+glDeleteBuffers(1, &vboId);
+```
+
+### VAO
+从上述的操作看，虽然减少了向GPU提交数据的操作，但是每次绘制仍然需要调用glVertexAttribPointer方法，声明VBO数据的使用信息，略显繁琐。因此，有了VAO。
+```
+//创建VAO
+GLuint vaoId;
+glGenVertexArrays(1, &vaoId);
+glBindVertexArray(vaoId);
+
+//关联相关操作
+glBindBuffer(GL_ARRAY_BUFFER, vboId);
+glEnableVertexAttribArray(0);
+glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (const void *)0);
+```
+
+绘制
+```
+glBindBuffer(GL_ARRAY_BUFFER, vaoId);
+glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, (const void *)0);
+```
 
 ### 参考文章
 - [熟悉 OpenGL VAO、VBO、FBO、PBO 等对象，看这一篇就够了](https://cloud.tencent.com/developer/article/1893989)
