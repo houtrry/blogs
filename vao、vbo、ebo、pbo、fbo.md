@@ -34,18 +34,24 @@ Vertex Buffer Object
 2. 绘制阶段，使用VBO的数据
 3. 销毁阶段，释放VBO的数据
 
+在绘制过程中，我们可能还会遇到使用glDrawElements方法进行绘制的情况，这个时候，EBO就派上了用场
+### EBO
+
 但是VBO只解决了缓存顶点数据的问题，在使用VBO数据时，仍然需要向GPU提交顶点数据的解析方式，  
 为了简化使用，我们创造了VAO
 ### VAO
   
    
    
-在绘制过程中，我们可能还会遇到使用glDrawElements方法进行绘制的情况，这个时候，EBO就派上了用场
-### EBO
+
 
 VBO可以单独使用，不依赖VAO、EBO  
 VAO依赖VBO使用，也即是，使用VAO时，必须使用VBO  
 EBO依赖VBO使用，也即是，使用EBO时，必须使用VBO  
 
 VBO是VAO、EBO的基础
+
+### 参考文章
+[熟悉 OpenGL VAO、VBO、FBO、PBO 等对象，看这一篇就够了](https://cloud.tencent.com/developer/article/1893989)
+
 
