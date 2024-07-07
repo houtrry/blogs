@@ -22,10 +22,10 @@
 1. 向GPU提交顶点数据vertexTriangle
 2. 向GPU提交顶点数据的解析方式， 数据大小3， 数据类型FLOAT， 步长为sizeof(LFloat7)
 
-然后，通过glDrawArrays绘制顶点数据
+然后，通过glDrawArrays绘制顶点数据.  
 
-这样做存在一个问题：每次绘制都需要从CPU向GPU提交数据，效率不高，也没有必要。
-因此，创造了VBO，用于解决这个问题。
+这样做存在一个问题：每次绘制都需要从CPU向GPU提交数据，效率不高，也没有必要。  
+因此，创造了VBO，用于解决这个问题。  
 ### VBO
 Vertex Buffer Object
 初始化时，向使用VBO向CPU提交一次数据，之后数据就被缓存在GPU中，无需CPU再向GPU提交数据。绘制时，直接使用GPU中的缓存数据。
@@ -34,7 +34,7 @@ Vertex Buffer Object
 2. 绘制阶段，使用VBO的数据
 3. 销毁阶段，释放VBO的数据
 
-但是VBO只解决了缓存顶点数据的问题，在使用VBO数据时，仍然需要向GPU提交顶点数据的解析方式，
+但是VBO只解决了缓存顶点数据的问题，在使用VBO数据时，仍然需要向GPU提交顶点数据的解析方式，  
 为了简化使用，我们创造了VAO
 ### VAO
 
@@ -43,9 +43,9 @@ Vertex Buffer Object
 在绘制过程中，我们可能还会遇到使用glDrawElements方法进行绘制的情况，这个时候，EBO就派上了用场
 ### EBO
 
-VBO可以单独使用，不依赖VAO、EBO
-VAO依赖VBO使用，也即是，使用VAO时，必须使用VBO
-EBO依赖VBO使用，也即是，使用EBO时，必须使用VBO
+VBO可以单独使用，不依赖VAO、EBO  
+VAO依赖VBO使用，也即是，使用VAO时，必须使用VBO  
+EBO依赖VBO使用，也即是，使用EBO时，必须使用VBO  
 
 VBO是VAO、EBO的基础
 
