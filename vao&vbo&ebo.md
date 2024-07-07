@@ -37,9 +37,9 @@ Vertex Buffer Object
 但是VBO只解决了缓存顶点数据的问题，在使用VBO数据时，仍然需要向GPU提交顶点数据的解析方式，  
 为了简化使用，我们创造了VAO
 ### VAO
-
-
-
+  
+   
+   
 在绘制过程中，我们可能还会遇到使用glDrawElements方法进行绘制的情况，这个时候，EBO就派上了用场
 ### EBO
 
