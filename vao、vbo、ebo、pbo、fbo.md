@@ -59,12 +59,13 @@ Vertex Buffer Object
     glBindBuffer(GL_ARRAY_BUFFER, vbo);
     glEnableClientState(GL_VERTEX_ARRAY);
     glEnableClientState(GL_COLOR_ARRAY);
-
+    
+    //声明VBO数据的解析信息
     float* vertexAddress = (float*)0;
     float* colorAddress = (float*)12;
     glVertexPointer(3, GL_FLOAT, sizeof(LFloat7), vertexAddress);
     glColorPointer(4, GL_FLOAT, sizeof(LFloat7), colorAddress);
-
+    //绘制
     glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 
     glDisableClientState(GL_VERTEX_ARRAY);
