@@ -34,9 +34,51 @@ Vertex Buffer Object
 2. 绘制阶段，使用VBO的数据
 3. 销毁阶段，释放VBO的数据
 
-- VBO可以单独使用，不依赖VAO、EBO  
+上述代码使用VBO的话，改造如下
+#### 初始化
+```
+    //顶点数据
+    LFloat7 vertexTriangle[] = {
+            {-0.5, 0.1, -0.1, 1.0, 0.0, 0.0, 1.0},
+            {-0.5, 0.9, -0.1, 0.0, 1.0, 0.0, 1.0},
+            {0.5,  0.1, -0.1, 0.0, 0.0, 1.0, 1.0},
+            {0.5,  0.9, -0.1, 1.0, 0.0, 0.0, 1.0},
+    };
+    //创建VBO
+    Gluint vbo;
+    glGenBuffers(1, &vbo);
+    //绑定VBO数据（向GPU提交该VBO所绑定的数据）
+    glBindBuffer(GL_ARRAY_BUFFER, vbo);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vertexTriangle), vertexTriangle, GL_STATIC_DRAW);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+```
+#### 绘制
+绘制改造如下
+```
+     //激活VBO数据
+    glBindBuffer(GL_ARRAY_BUFFER, vbo);
+    glEnableClientState(GL_VERTEX_ARRAY);
+    glEnableClientState(GL_COLOR_ARRAY);
 
-VBO是VAO、EBO的基础
+    float* vertexAddress = (float*)0;
+    float* colorAddress = (float*)12;
+    glVertexPointer(3, GL_FLOAT, sizeof(LFloat7), vertexAddress);
+    glColorPointer(4, GL_FLOAT, sizeof(LFloat7), colorAddress);
+
+    glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+
+    glDisableClientState(GL_VERTEX_ARRAY);
+    glDisableClientState(GL_COLOR_ARRAY);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+```
+此处，vertexAddress和colorAddress稍微解释下，
+vertexAddress的0是因为，顶点数据位于每帧数据的0*sizeof(FLOAT) byte位,  也即是0，
+同理， 颜色数据位于每帧数据的3*sizeof(FLOAT) byte位,  也即是12，
+##### 释放VBO
+```
+glDeleteBuffers(1, &vbo);
+```
+
 
 ### VBO/EBO/PBO
 三者基本一致，都是把数据存到GPU，减少CPU向GPU提交数据的次数，从而提高渲染效率。  
@@ -98,5 +140,6 @@ glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, (const void *)0);
 - [熟悉 OpenGL VAO、VBO、FBO、PBO 等对象，看这一篇就够了](https://cloud.tencent.com/developer/article/1893989)
 - [Android OpenGL 渲染图像读取哪家强](https://cloud.tencent.com/developer/article/1739511)
 - [PBO是OpenGL最高效的像素拷贝方式吗？](https://cloud.tencent.com/developer/article/2003936)
+- [OpenGL学习脚印: 绘制一个三角形](https://www.cnblogs.com/zgyijg/p/14817909.html)
 
 
