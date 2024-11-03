@@ -100,3 +100,6 @@ void main() {
 ```
 glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 ```
+GL_UNPACK_ALIGNMENT默认值是4，[GL_UNPACK_ALIGNMENT说明](https://blog.csdn.net/keneyr/article/details/102727363)
+修改后预览如下：
+![Screenshot_20241103_163931](https://github.com/user-attachments/assets/4ceaa38e-6cb2-4be8-920b-e9367bcff084)
